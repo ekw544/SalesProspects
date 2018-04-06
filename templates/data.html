@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Data</h1>
+    <p></p>
+
+    {% if data|length == 0 %}
+
+    <p>No data is available</p>
+
+    {% else %}
+    <table>
+        <tr>
+            {% for header in headers %}
+                <th>{{header}}</th>
+            {% endfor %}
+        </tr>
+        {% for row in data %}
+            <tr>
+                {% for value in row %}
+                    <td>{{value}}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% endif %} 
+{% endblock %}
