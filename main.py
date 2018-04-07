@@ -28,6 +28,7 @@ def require_login():
     #list of pages can view w/o logging in
     allowed_routes = ["login"]
     if request.endpoint not in allowed_routes and "username" not in session:
+        #TODO: Add title to show in browser tab
         return redirect("/login")
 
 @app.route("/login", methods=["POST", "GET"])
@@ -64,6 +65,7 @@ def index():
     data = all_data_of_interest()  
     headers = data[0]
     data = data[1:]
+    #TODO: Update title
     return render_template("data.html",title="Data!", data=data, headers=headers)
 
 #generates a list of a list of only the data from the columns of interest

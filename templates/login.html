@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Log in to the Sales Prospects Dashboard</h1>
+<h1>Sales Prospects Dashboard</h1>
 <form action="/login" method="post">
     <table>
         <tr>
             <td><label for="username">Username</label></td>
+        </tr>
+        <tr>
             <td>
                 <input name="username" type="text" value="{{ username }}">
             </td>
         </tr>
         <tr>
             <td><label for="password">Password</label></td>
+        </tr>
+        <tr>
             <td>
                 <input name="password" type="password">
             </td>
