@@ -1,5 +1,5 @@
 import csv
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, session
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -9,12 +9,55 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://SalesProspects:S@lesPro
 app.config["SQLALCHEMY_ECHO"] = True
 db = SQLAlchemy(app)
 
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20))
+#secret key, property that needs to be set in order for sessions to work
+app.secret_key = "9QvF91rIL1v8keG"
 
-    def __init__(self, username):
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True)
+    password = db.Column(db.String(20))
+
+    def __init__(self, username, password):
         self.username = username
+        self.password = password
+        #TODO: Securely store passwords in database
+
+#want this to run for every request that comes in
+@app.before_request
+def require_login():
+    #list of pages can view w/o logging in
+    allowed_routes = ["login"]
+    if request.endpoint not in allowed_routes and "username" not in session:
+        return redirect("/login")
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    if request.method == "POST":
+        #gets data out of the request
+        #request.form is the python dict that contains data sent in a post request
+        username = request.form["username"]
+        password = request.form["password"]
+        #verify this user's pw, retrieve the user with the given un from database
+        #if expect to only have one result or only want to get the first, can use .first() as done here
+        user = User.query.filter_by(username=username).first()
+        #checks first if user exists, then compares the pw
+        if user and user.password == password:
+            #TODO: Change to use cookies so will not keep logged in long term
+            #flag to show whether or not user is considered to be logged in
+            session["username"] = username
+            #if passes, will be redirected to main page
+            return redirect("/")
+        else:
+            #TODO: explain why login failed
+            return "<h1>Incorrect login information</h1>"
+    #if don't login will return back to login form        
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    #removes username from session
+    del session["username"]
+    return redirect("/")
 
 @app.route("/") #potentially will need to add ("/", methods=["POST", "GET"])
 def index():
