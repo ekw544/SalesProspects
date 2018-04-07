@@ -1,10 +1,22 @@
 import csv
 from flask import Flask, request, redirect, render_template
+from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://SalesProspects:S@lesProsp@localhost:8889/SalesProspects"
+app.config["SQLALCHEMY_ECHO"] = True
+db = SQLAlchemy(app)
 
-@app.route("/")
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20))
+
+    def __init__(self, username):
+        self.username = username
+
+@app.route("/") #potentially will need to add ("/", methods=["POST", "GET"])
 def index():
     data = all_data_of_interest()  
     headers = data[0]
