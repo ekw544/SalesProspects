@@ -71,7 +71,7 @@ def index():
 #generates a list of a list of only the data from the columns of interest
 def all_data_of_interest():
     # bringing in raw CSV data
-    with open('C:/Users/Elisa/Documents/SalesProspects/ACO.SSP.PUF.Y2016.csv', newline='') as csvfile:
+    with open('C:/Users/Elisa/Documents/SalesProspects/Data/ACO.SSP.PUF.Y2016.csv', newline='') as csvfile:
         reader = csv.reader(csvfile)
         col_of_interest_indices = []
         is_header = True
