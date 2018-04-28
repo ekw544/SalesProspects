@@ -18,8 +18,12 @@
         {% for row in data %}
             <tr>
                 {% for value in row %}
+                    {% if loop.first %}
+                    <td><a href="/aco-overview">{{value}}</a></td>
+                    {% else %}
                     <td>{{value}}</td>
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
             </tr>
         {% endfor %}
     </table>

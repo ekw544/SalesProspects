@@ -18,9 +18,11 @@ Users will find this useful as it will help them prioritize prospects, leading t
 * CSV data files
 * Flask
 * MAMP
-* SQLAlchemy<br/><br/>
-<b>Optional</b>
+* SQLAlchemy
+* Jinja2 templates
 * Pandas library
-* Scikit-learn
 * Jupyter Notebook
-* matplotlib and seaborn modules
+* matplotlib and seaborn modules<br/><br/>
+<b>Optional</b>
+* Scikit-learn
+
